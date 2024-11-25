@@ -162,7 +162,7 @@ spec:
   tls:
     - secretName: wildcard-grpc-cronos-heronimus-id
       hosts:
-        - grpc-template-cronos-pos-node.cronos.heronimus.id
+        - grpc-template-cronos-pos-node.grpc-cronos.heronimus.id
   rules:
     ## template
     - host: grpc-template-cronos-pos-node.cronos.heronimus.id
