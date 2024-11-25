@@ -65,7 +65,7 @@ kube-prometheus-stack:
           cpu: 1000m
           memory: 2000Mi
         requests:
-          cpu: 8000m
+          cpu: 800m
           memory: 1000Mi
       storageSpec:
         volumeClaimTemplate:
