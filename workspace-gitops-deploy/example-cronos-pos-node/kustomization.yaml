@@ -4,7 +4,7 @@ metadata:
   name: example-cronos-pos-node
 namespace: cronos-pos
 resources:
-  - git@github.com:heronimus/crypto-com-devops-challenge.git/cronos-pos-k8s-template?ref=main
+  - git@github.com:heronimus/crypto-com-devops-challenge.git/cronos-pos-k8s-template
 labels:
   - pairs:
       app: example-cronos-pos-node
@@ -32,7 +32,7 @@ patches:
       # Replace ENV: CUSTOM_HEIGHT
       - op: replace
         path: /spec/template/spec/containers/0/env/0/value
-        value: 20780000
+        value: "20780000"
       - op: replace
         path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
         value: example-cronos-pos-node

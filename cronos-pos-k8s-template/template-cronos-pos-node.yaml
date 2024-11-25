@@ -51,7 +51,7 @@ spec:
           env:
             ## Tips: use height that offered by available snapshot peers
             - name: CUSTOM_HEIGHT
-              value: 20780000
+              value: "20780000"
           resources:
             ## IMPORTANT: due to current resource limitation,
             ## this deployment resource request/limit are for evaluations only, not for Production
