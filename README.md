@@ -21,19 +21,22 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 - Changes are organized in workspace deployments (e.g., cronos-pos-deploy-1, cronos-pos-deploy-2) in git repository
 - ArgoCD automatically synchronizes these changes to the Kubernetes cluster
 
+
 #### Kubernetes as Container Orchestrator
-Advantages:
-- Battle-tested platform with proven reliability in production
-- Support scalability for growing workloads
-- Cloud-agnostic architecture enabling multi-cloud and bare-metal deployments
+- Advantages:
+  - Battle-tested platform with proven reliability in production
+  - Support scalability for growing workloads
+  - Cloud-agnostic architecture enabling multi-cloud and bare-metal deployments
+
 
 #### GitOps Workflow with ArgoCD
-Advantages:
-- Declarative configuration management ensuring infrastructure as code
-- Automated synchronization between Git repository and cluster state
-- Clear audit trail and version control for all deployments
-- Simplified rollback capabilities through Git history
-- Enhanced collaboration through pull request workflows
+- Advantages:
+  - Declarative configuration management ensuring infrastructure as code
+  - Automated synchronization between Git repository and cluster state
+  - Clear audit trail and version control for all deployments
+  - Simplified rollback capabilities through Git history
+  - Enhanced collaboration through pull request workflows
+
 
 #### Implementation Challenges
 - Requires strong/comprehensive engineering expertise in Kubernetes architecture
@@ -42,15 +45,29 @@ Advantages:
 
 ### - Configuration/Deliverables
 
-- `/cronos-pos-container`: houses the `Dockerfile` and scripts needed to launch Cronos-POS nodes in STATE-SYNC mode with configurable block heights (using CUSTOM_HEIGHT env var).
+- `/cronos-pos-container`
 
-- `/cronos-pos-k8s-template`: stores Kubernetes deployment templates for Cronos-POS observer nodes, utilizing kustomize (https://kustomize.io/) for manifest management and patching.
+  Contain the `Dockerfile` and scripts needed to launch Cronos-POS nodes in STATE-SYNC mode with configurable block heights (using CUSTOM_HEIGHT env var).
+  There's two helper scripts:
+  - `cronospos-init-mainnet.sh` --> Help init volume data and configuration with moniker-id, only run once on init container when node is starting from stract.
+  - `cronospos-enable-statesync.sh` --> enable various configuration to app.toml & config.toml, mainly to setup the STATE-SYNC configuration.
 
-- `/k8s-cluster-addons`: provides supplementary configurations and add-ons for the Kubernetes environment including monitoring, ArgoCD, and ingress setup.
 
-- `/workspace-gitops-deploy`: serves as the GitOps deployment workspace containing individual Cronos-POS node configurations, with `example-cronos-pos-node-1` provided as a reference implementation.
+- `/cronos-pos-k8s-template`:
 
-- **Log file (Cronos-POS node)**: Live log are available at https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
+  Stores Kubernetes deployment templates for Cronos-POS observer nodes, utilizing kustomize (https://kustomize.io/) for manifest management and patching.
+
+
+- `/k8s-cluster-addons`:
+
+  Provides supplementary configurations and add-ons for the Kubernetes environment including monitoring, ArgoCD, and ingress setup.
+
+- `/workspace-gitops-deploy`:
+
+  Derves as the GitOps deployment workspace containing individual Cronos-POS node configurations, with `example-cronos-pos-node-1` provided as a reference implementation.
+
+- **Log file (Cronos-POS node)**
+  Live log are available at https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
 
 ### - Testing and HandsOn
 
