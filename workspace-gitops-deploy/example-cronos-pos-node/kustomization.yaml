@@ -40,10 +40,7 @@ patches:
       kind: Ingress
       name: template-cronos-pos-node
     patch: |-
-      - op: replace
-        path: /metadata/name
-        value: example-cronos-pos-node
-      # Replace RPC, REST, and GRPC endpoints
+      # Replace RPC, and REST endpoints
       - op: replace
         path: /spec/rules/0/host
         value: rpc-example-cronos-pos-node.cronos.heronimus.id
@@ -51,14 +48,22 @@ patches:
         path: /spec/rules/1/host
         value: rest-example-cronos-pos-node.cronos.heronimus.id
       - op: replace
-        path: /spec/rules/2/host
-        value: grpc-example-cronos-pos-node.cronos.heronimus.id
-      - op: replace
         path: /spec/rules/0/http/paths/0/backend/service/name
         value: example-cronos-pos-node
       - op: replace
         path: /spec/rules/1/http/paths/0/backend/service/name
         value: example-cronos-pos-node
+  - target:
+      kind: Ingress
+      name: template-cronos-pos-node-grpc
+    patch: |-
       - op: replace
-        path: /spec/rules/2/http/paths/0/backend/service/name
+        path: /metadata/name
+        value: example-cronos-pos-node-grpc
+      # Replace GRPC endpoints
+      - op: replace
+        path: /spec/rules/0/host
+        value: grpc-example-cronos-pos-node.cronos.heronimus.id
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
         value: example-cronos-pos-node

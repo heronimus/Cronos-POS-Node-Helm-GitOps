@@ -147,6 +147,19 @@ spec:
                 name: template-cronos-pos-node
                 port:
                   number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: template-cronos-pos-node-grpc
+  namespace: cronos-pos
+  labels:
+    app: template-cronos-pos-node-grpc
+    crypto-pos.org/service: cronos-pos-node
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+spec:
+  rules:
+    ## template
     - host: grpc-template-cronos-pos-node.cronos.heronimus.id
       http:
         paths:
