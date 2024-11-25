@@ -46,7 +46,7 @@ kube-prometheus-stack:
         memory: 100Mi
       requests:
         cpu: 50m
-        memory: 500Mi
+        memory: 50Mi
   prometheus:
     enabled: true
     prometheusSpec:
