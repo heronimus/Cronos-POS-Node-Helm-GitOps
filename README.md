@@ -10,6 +10,7 @@ The observer node implementation in my case will us a STATE-SYNC node configurat
 - Running a complete Full-Node requires significant computational resources
 - STATE-SYNC provides near-the-head pruned data, which is sufficient for most API query needs
 
+---
 
 ### - Tech-Stack Design Selection
 
@@ -43,6 +44,10 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 - Initial setup complexity for proper proper maintainability and observability
 
 
+
+---
+
+
 ### - Configuration/Deliverables
 
 - `/cronos-pos-container`
@@ -69,6 +74,11 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 - **Log file (Cronos-POS node)**
   Live log are available at https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
 
+
+
+---
+
+
 ### - Testing and HandsOn
 
 ![argocd-1](_assets/argocd-1.png)
@@ -91,19 +101,23 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ![grafana-log](_assets/grafana-log.png)
 
+
+---
+
 ### - Questions
 
 - What is the amount of balance address `cro1hsr2z6lr7k2szjktzjst46rr9cfavprqas20gc` has?
 
-  Get Balance query can be done using a query to the Cosmos Bank Module using multiple endpoint available/
-  - Rest API (1317)
+  Get Balance query can be done using a query to the Cosmos Bank Module using multiple endpoint available.
+
+  - **Rest/Cosmos API (1317)**
   Query
   ```
   curl -X GET \
     https://rest-local-mac.cronos.heronimus.id/cosmos/bank/v1beta1/balances/cro1hsr2z6lr7k2szjktzjst46rr9cfavprqas20gc \
     -H 'Content-Type: application/json'
   ```
-  Response
+  Response: balance = 182513776 basecro
   ```
   {
     "balances": [
@@ -119,7 +133,8 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   }
   ```
 
-  - GRPC (9090)
+  - **GRPC (9090)**
+  Query
   ```
   grpcurl -plaintext \
       -d '{"address":"cro1hsr2z6lr7k2szjktzjst46rr9cfavprqas20gc"}' \
@@ -150,7 +165,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   curl -s "https://rpc.mainnet.cronos-pos.org:443/block?height=13947398" | jq -r .result.block_id.hash
   ```
 
-  Response
+  Response Block Hash
   ```
   6665D5883A7F029B37AE37D8ACDCC5B7BE6982018BB9280814A826CE2D494DDA
   ```
