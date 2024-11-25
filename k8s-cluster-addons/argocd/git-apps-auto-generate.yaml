@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: git-apps-auto-generate
+  namespace: infra
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: git@github.com:heronimus/crypto-com-devops-challenge.git
+        revision: main
+        directories:
+          ## Wildcard path match sub-folder
+          - path: workspace-gitops-deploy/*
+  template:
+    metadata:
+      ## {{.path.basenameNormalized}}
+      name: "cronos-pos-{{.path.basenameNormalized}}"
+    spec:
+      project: cluster-infra
+      source:
+        repoURL: git@github.com:heronimus/crypto-com-devops-challenge.git
+        targetRevision: main
+        ## {{.path.path}} = full-path in git repository
+        path: "{{.path.path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "cronos-pos"
+      syncPolicy:
+        automated:
+          ## automatically sync apps when it detects differences between resource manifests in Git
+          ## prune --> auto delete
+          ## selfHeal --> auto sync when state deviates from Git
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
