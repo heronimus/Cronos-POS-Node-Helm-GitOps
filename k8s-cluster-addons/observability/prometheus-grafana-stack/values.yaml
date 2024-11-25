@@ -14,7 +14,26 @@ kube-prometheus-stack:
   alertmanager:
     enabled: false
   grafana:
-    enabled: false
+    enabled: true
+    defaultDashboardsEnabled: true
+    image:
+      registry: docker.io
+      repository: grafana/grafana
+      tag: 11.3.1
+    persistence:
+      enabled: true
+      type: pvc
+      storageClassName: hostvolume-local
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
   kubernetesServiceMonitors:
     enabled: true
   kubeApiServer:
