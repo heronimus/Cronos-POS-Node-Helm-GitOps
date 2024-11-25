@@ -40,16 +40,25 @@ Advantages:
 - Initial setup complexity for proper proper maintainability and observability
 
 
-### - Configuration
+### - Configuration/Deliverables
+
 - `/cronos-pos-container`: houses the `Dockerfile` and scripts needed to launch Cronos-POS nodes in STATE-SYNC mode with configurable block heights (using CUSTOM_HEIGHT env var).
+
 - `/cronos-pos-k8s-template`: stores Kubernetes deployment templates for Cronos-POS observer nodes, utilizing kustomize (https://kustomize.io/) for manifest management and patching.
+
 - `/k8s-cluster-addons`: provides supplementary configurations and add-ons for the Kubernetes environment including monitoring, ArgoCD, and ingress setup.
+
 - `/workspace-gitops-deploy`: serves as the GitOps deployment workspace containing individual Cronos-POS node configurations, with `example-cronos-pos-node-1` provided as a reference implementation.
 
+- **Log file (Cronos-POS node)**: Live log are available at https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
 
 ### - Testing and HandsOn
 
+![argocd-1](_assets/argocd-1.png)
+
 - ArgoCD: https://argocd.cronos.heronimus.id/applications?namespace=cronos-pos
+
+![argocd-2](_assets/argocd-2.png)
 
 - Synced-Node (Running on my local but proxied through my K8S cluster)
   - RPC: https://rpc-local-mac.cronos.heronimus.id/
@@ -57,11 +66,13 @@ Advantages:
   - GRPC: grpc-local-mac.grpc-cronos.heronimus.id:443
 
 - Not-synced-Node (Running on my K8S cluster, but due to resource limitation, it can't sync to the latest block)
-  - RPC: https://rpc-local-mac.cronos.heronimus.id/
-  - Rest API: https://rest-local-mac.cronos.heronimus.id/
-  - GRPC: grpc-local-mac.grpc-cronos.heronimus.id:443
+  - RPC: https://rpc-example-cronos-pos-node-1.cronos.heronimus.id/
+  - Rest API: https://rest-example-cronos-pos-node-1.cronos.heronimus.id/
+  - GRPC: grpc-example-cronos-pos-node-1.grpc-cronos.heronimus.id:443
 
 - Node Log: https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
+
+![grafana-log](_assets/grafana-log.png)
 
 ### - Questions
 
@@ -114,6 +125,7 @@ Advantages:
   ```
 
 - What is the block hash for `13947398` information?
+
   Because I run the observer node using state-sync at higher trusted height so I can't query earlier block. I'll use the public RPC endpoint instead to get block hash for block `13947398`.
 
   Query
@@ -125,3 +137,6 @@ Advantages:
   ```
   6665D5883A7F029B37AE37D8ACDCC5B7BE6982018BB9280814A826CE2D494DDA
   ```
+
+----
+Q2: HTTP Server
