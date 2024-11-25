@@ -29,7 +29,8 @@ spec:
         - name: chain-main-init
           image: heronimus/cronospos-chain-main:4.2.9
           command:
-            - "./cronospos-init-mainnet.sh --moniker-id=${MONIKER_ID}"
+            - "./cronospos-init-mainnet.sh"
+            - "--moniker-id=${MONIKER_ID}"
           env:
             - name: MONIKER_ID
               value: default-123
@@ -47,7 +48,9 @@ spec:
         - name: chain-main-statesync-enabled
           image: heronimus/cronospos-chain-main:4.2.9
           command:
-            - bash -c './cronospos-enable-statesync.sh --custom-height=${CUSTOM_HEIGHT} && chain-maind start'
+            - bash
+            - -c
+            - "./cronospos-enable-statesync.sh --custom-height=${CUSTOM_HEIGHT} && chain-maind start"
           env:
             ## Tips: use height that offered by available snapshot peers
             - name: CUSTOM_HEIGHT
