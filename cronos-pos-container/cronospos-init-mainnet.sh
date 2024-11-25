@@ -75,6 +75,8 @@ sed -i.bak -E 's#^(minimum-gas-prices[[:space:]]+=[[:space:]]+)""$#\1"0.025basec
 # Increase chunk_request_timeout from "10s" --> "30s"
 sed -i.bak -E 's#^(discovery_time[[:space:]]+=[[:space:]]+).*$#\1"60s"#' "$CHAIN_MAIND_DIR/config/config.toml"
 
+sed -i.bak -E 's#^(chunk_fetchers[[:space:]]+=[[:space:]]+).*$#\1"8"#' "$CHAIN_MAIND_DIR/config/config.toml"
+
 # Change Tendermint RPC listening interface from 127.0.0.1 --> 0.0.0.0, exposed it outside the container
 sed -i.bak -E 's#^(laddr[[:space:]]+=[[:space:]]+)"tcp://127.0.0.1:26657"#\1"tcp://0.0.0.0:26657"#' "$CHAIN_MAIND_DIR/config/config.toml"
 

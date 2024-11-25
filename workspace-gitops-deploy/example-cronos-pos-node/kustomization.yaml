@@ -48,10 +48,10 @@ patches:
         path: /spec/rules/0/host
         value: rpc-example-cronos-pos-node.cronos.heronimus.id
       - op: replace
-        path: /spec/rules/0/host
+        path: /spec/rules/1/host
         value: rest-example-cronos-pos-node.cronos.heronimus.id
       - op: replace
-        path: /spec/rules/0/host
+        path: /spec/rules/2/host
         value: grpc-example-cronos-pos-node.cronos.heronimus.id
       - op: replace
         path: /spec/rules/0/http/paths/0/backend/service/name
