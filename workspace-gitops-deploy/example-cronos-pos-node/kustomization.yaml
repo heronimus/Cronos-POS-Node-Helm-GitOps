@@ -1,0 +1,65 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: example-cronos-pos-node
+namespace: cronos-pos
+resources:
+  - git@github.com:heronimus/crypto-com-devops-challenge.git/cronos-pos-k8s-template?ref=main
+  # - /Users/heronimus/dev-setup/crypto-com-tasks/crypto-com-devops-challenge/cronos-pos-k8s-template/kustomization.yaml
+labels:
+  - pairs:
+      app: example-cronos-pos-node
+    includeSelectors: true
+images:
+  - name: heronimus/cronospos-chain-main
+    newName: heronimus/cronospos-chain-main
+    newTag: 4.2.9
+patches:
+  - target:
+      kind: Service|Ingress|StatefulSet|PersistentVolumeClaim
+      name: template-cronos-pos-node
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: example-cronos-pos-node
+  - target:
+      kind: StatefulSet
+      name: template-cronos-pos-node
+    patch: |-
+      # env: MONIKER_ID
+      - op: replace
+        path: /spec/template/spec/initContainers/0/env/0/value
+        value: "example-cronos-pos-node-1"
+      # env: CUSTOM_HEIGHT
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: 20780001
+      - op: replace
+        path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
+        value: example-cronos-pos-node
+  - target:
+      kind: Ingress
+      name: template-cronos-pos-node
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: example-cronos-pos-node
+      # Replace RPC, REST, and GRPC endpoints
+      - op: replace
+        path: /spec/rules/0/host
+        value: rpc.example-cronos-pos-node.cronos.heronimus.id
+      - op: replace
+        path: /spec/rules/0/host
+        value: rest.example-cronos-pos-node.cronos.heronimus.id
+      - op: replace
+        path: /spec/rules/0/host
+        value: grpc.example-cronos-pos-node.cronos.heronimus.id
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
+        value: example-cronos-pos-node
+      - op: replace
+        path: /spec/rules/1/http/paths/0/backend/service/name
+        value: example-cronos-pos-node
+      - op: replace
+        path: /spec/rules/2/http/paths/0/backend/service/name
+        value: example-cronos-pos-node

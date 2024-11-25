@@ -40,6 +40,8 @@ spec:
           volumeMounts:
             - mountPath: /chain-main/.chain-maind/
               name: cronos-data-volume
+              uid: 10001
+              gid: 10001
       containers:
         ## chain-maind with state-sync enabled
         - name: chain-main-statesync-enabled
@@ -75,6 +77,8 @@ spec:
           volumeMounts:
             - mountPath: /chain-main/.chain-maind/
               name: cronos-data-volume
+              uid: 10001
+              gid: 10001
       volumes:
         - name: cronos-data-volume
           persistentVolumeClaim:
