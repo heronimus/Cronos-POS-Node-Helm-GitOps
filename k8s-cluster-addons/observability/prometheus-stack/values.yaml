@@ -3,75 +3,74 @@ kube-prometheus-stack:
   # Default values for kube-prometheus-stack
   # See: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
 
-namespaceOverride: "observability"
-crds:
-  enabled: true
-defaultRules:
-  create: false
-global:
-  rbac:
-    create: true
-alertmanager:
-  enabled: false
-grafana:
-  enabled: false
-kubernetesServiceMonitors:
-  enabled: true
-kubeApiServer:
-  enabled: true
-kubelet:
-  enabled: true
-  namespace: kube-system
-kubeControllerManager:
-  enabled: true
-coreDns:
-  enabled: true
-kubeEtcd:
-  enabled: true
-kubeScheduler:
-  enabled: true
-kubeProxy:
-  enabled: true
-kubeStateMetrics:
-  enabled: true
-nodeExporter:
-  enabled: true
-thanosRuler:
-  enabled: false
-prometheusOperator:
-  enabled: true
-  resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    requests:
-      cpu: 50m
-      memory: 500Mi
-
-prometheus:
-  enabled: true
-  prometheusSpec:
-    query: {}
-    retention: 30d
-    retentionSize: "5GB"
-    walCompression: true
-    paused: false
-    replicas: 1
-    shards: 1
-    logLevel: info
-    logFormat: logfmt
-    ## Resource limits & requests
+  namespaceOverride: "observability"
+  crds:
+    enabled: true
+  defaultRules:
+    create: false
+  global:
+    rbac:
+      create: true
+  alertmanager:
+    enabled: false
+  grafana:
+    enabled: false
+  kubernetesServiceMonitors:
+    enabled: true
+  kubeApiServer:
+    enabled: true
+  kubelet:
+    enabled: true
+    namespace: kube-system
+  kubeControllerManager:
+    enabled: true
+  coreDns:
+    enabled: true
+  kubeEtcd:
+    enabled: true
+  kubeScheduler:
+    enabled: true
+  kubeProxy:
+    enabled: true
+  kubeStateMetrics:
+    enabled: true
+  nodeExporter:
+    enabled: true
+  thanosRuler:
+    enabled: false
+  prometheusOperator:
+    enabled: true
     resources:
       limits:
-        cpu: 1000m
-        memory: 2000Mi
+        cpu: 100m
+        memory: 100Mi
       requests:
-        cpu: 8000m
-        memory: 1000Mi
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          resources:
-            requests:
-              storage: 5Gi
-          storageClassName: hostvolume-local
+        cpu: 50m
+        memory: 500Mi
+  prometheus:
+    enabled: true
+    prometheusSpec:
+      query: {}
+      retention: 30d
+      retentionSize: "5GB"
+      walCompression: true
+      paused: false
+      replicas: 1
+      shards: 1
+      logLevel: info
+      logFormat: logfmt
+      ## Resource limits & requests
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 2000Mi
+        requests:
+          cpu: 8000m
+          memory: 1000Mi
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 5Gi
+            storageClassName: hostvolume-local
