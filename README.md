@@ -72,6 +72,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   Derves as the GitOps deployment workspace containing individual Cronos-POS node configurations, with `example-cronos-pos-node-1` provided as a reference implementation.
 
 - **Log file (Cronos-POS node)**
+
   Live log are available at https://grafana.cronos.heronimus.id/public-dashboards/b3b7220e5fa84b06b8a66ec716b3ef78?orgId=1
 
 
@@ -81,18 +82,19 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ### - Testing and HandsOn
 
+
 ![argocd-1](_assets/argocd-1.png)
 
-- ArgoCD: https://argocd.cronos.heronimus.id/applications?namespace=cronos-pos
+- **ArgoCD Dashboard** (Guest Access): https://argocd.cronos.heronimus.id/applications?namespace=cronos-pos
 
 ![argocd-2](_assets/argocd-2.png)
 
-- Synced-Node (Running on my local but proxied through my K8S cluster)
+- **Cronos-POS** Synced-Node (Running on my local but proxied through my K8S cluster)
   - RPC: https://rpc-local-mac.cronos.heronimus.id/
   - Rest API: https://rest-local-mac.cronos.heronimus.id/
   - GRPC: grpc-local-mac.grpc-cronos.heronimus.id:443
 
-- Not-synced-Node (Running on my K8S cluster, but due to resource limitation, it can't sync to the latest block)
+- **Cronos-POS** Not-synced-Node (Running on my K8S cluster, but due to resource limitation, it can't sync to the latest block)
   - RPC: https://rpc-example-cronos-pos-node-1.cronos.heronimus.id/
   - Rest API: https://rest-example-cronos-pos-node-1.cronos.heronimus.id/
   - GRPC: grpc-example-cronos-pos-node-1.grpc-cronos.heronimus.id:443
