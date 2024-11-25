@@ -1,0 +1,166 @@
+## =================================================
+## Cronos-POS Node State-SYnc
+## Kubernetes with Kustomize Template
+## List of Kind:
+## - StatefulSet, Service, Ingress, PersistentVolumeClaim
+## =================================================
+
+## Kind: Deployment
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: template-cronos-pos-node
+  namespace: cronos-pos
+  labels:
+    app: template-cronos-pos-node
+    crypto-pos.org/service: cronos-pos-node
+spec:
+  selector:
+    matchLabels:
+      app: template-cronos-pos-node
+  template:
+    metadata:
+      labels:
+        app: template-cronos-pos-node
+    spec:
+      initContainers:
+        ## initialize chain-maind mainnet volume data
+        - name: chain-main-init
+          image: heronimus/cronospos-chain-main:4.2.9
+          command:
+            - "./cronospos-init-mainnet.sh --moniker-id=${MONIKER_ID}"
+          env:
+            - name: MONIKER_ID
+              value: default-123
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+      containers:
+        ## chain-maind with state-sync enabled
+        - name: chain-main-statesync-enabled
+          image: heronimus/cronospos-chain-main:4.2.9
+          command:
+            - bash -c './cronospos-enable-statesync.sh --custom-height=${CUSTOM_HEIGHT} && chain-maind start'
+          env:
+            ## Tips: use height that offered by available snapshot peers
+            - name: CUSTOM_HEIGHT
+              value: 20780000
+          resources:
+            ## IMPORTANT: due to current resource limitation,
+            ## this deployment resource request/limit are for evaluations only, not for Production
+            limits:
+              cpu: 1000m
+              memory: 1500Mi
+            requests:
+              cpu: 500m
+              memory: 1000Mi
+          ports:
+            - name: tendermint-p2p
+              containerPort: 26656
+              protocol: TCP
+            - name: tendermint-rpc
+              containerPort: 26657
+              protocol: TCP
+            - name: rest
+              containerPort: 1317
+              protocol: TCP
+            - name: grpc
+              containerPort: 9090
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /chain-main/.chain-maind/
+              name: vol-template-cronos-pos-node
+      volumes:
+        - name: template-cronos-pos-node
+          persistentVolumeClaim:
+            claimName: template-cronos-pos-node
+
+## Kind: Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: template-cronos-pos-node
+  namespace: cronos-pos
+  labels:
+    app: template-cronos-pos-node
+    crypto-pos.org/service: cronos-pos-node
+spec:
+  selector:
+    app: template-cronos-pos-node
+  ports:
+    - name: tendermint-p2p
+      port: 26656
+      targetPort: 26656
+      protocol: TCP
+    - name: tendermint-rpc
+      port: 26657
+      targetPort: 26657
+      protocol: TCP
+    - name: rest
+      port: 1317
+      targetPort: 1317
+      protocol: TCP
+    - name: grpc
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+
+## Kind: Ingress Rule
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: template-cronos-pos-node
+  namespace: cronos-pos
+  labels:
+    app: template-cronos-pos-node
+    crypto-pos.org/service: cronos-pos-node
+spec:
+  rules:
+    ## template
+    - host: rpc.template-cronos-pos-node.cronos.heronimus.id
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: template-cronos-pos-node
+                port:
+                  number: 26657
+    - host: rest.template-cronos-pos-node.cronos.heronimus.id
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: template-cronos-pos-node
+                port:
+                  number: 1317
+    - host: grpc.template-cronos-pos-node.cronos.heronimus.id
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: template-cronos-pos-node
+                port:
+                  number: 9090
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: template-cronos-pos-node
+  namespace: cronos-pos
+spec:
+  storageClassName: hostvolume-local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
