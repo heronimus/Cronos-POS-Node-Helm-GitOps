@@ -80,6 +80,9 @@ sed -i.bak -E 's#^(chunk_fetchers[[:space:]]+=[[:space:]]+).*$#\1"8"#' "$CHAIN_M
 # Change Tendermint RPC listening interface from 127.0.0.1 --> 0.0.0.0, exposed it outside the container
 sed -i.bak -E 's#^(laddr[[:space:]]+=[[:space:]]+)"tcp://127.0.0.1:26657"#\1"tcp://0.0.0.0:26657"#' "$CHAIN_MAIND_DIR/config/config.toml"
 
+# Enable Rest API endpoint (1317)
+sed -i.bak -E '/\[api\]/,/\[.*\]/ s/^enable = false/enable = true/' "$CHAIN_MAIND_DIR/config/app.toml"
+
 # Change gRPC (9090) & gRPC-web (9091) listening interface from 127.0.0.1 --> 0.0.0.0
 sed -i.bak -E 's#^(address[[:space:]]+=[[:space:]]+)"127.0.0.1:9090"#\1"0.0.0.0:9090"#' "$CHAIN_MAIND_DIR/config/app.toml"
 sed -i.bak -E 's#^(address[[:space:]]+=[[:space:]]+)"127.0.0.1:9091"#\1"0.0.0.0:9091"#' "$CHAIN_MAIND_DIR/config/app.toml"
