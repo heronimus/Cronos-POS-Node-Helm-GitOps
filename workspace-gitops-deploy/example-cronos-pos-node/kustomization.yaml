@@ -5,7 +5,6 @@ metadata:
 namespace: cronos-pos
 resources:
   - git@github.com:heronimus/crypto-com-devops-challenge.git/cronos-pos-k8s-template?ref=main
-  # - /Users/heronimus/dev-setup/crypto-com-tasks/crypto-com-devops-challenge/cronos-pos-k8s-template/kustomization.yaml
 labels:
   - pairs:
       app: example-cronos-pos-node
