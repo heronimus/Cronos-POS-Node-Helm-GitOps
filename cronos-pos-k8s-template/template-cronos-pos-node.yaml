@@ -37,6 +37,9 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
+          volumeMounts:
+            - mountPath: /chain-main/.chain-maind/
+              name: cronos-data-volume
       containers:
         ## chain-maind with state-sync enabled
         - name: chain-main-statesync-enabled
@@ -71,9 +74,9 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /chain-main/.chain-maind/
-              name: vol-template-cronos-pos-node
+              name: cronos-data-volume
       volumes:
-        - name: template-cronos-pos-node
+        - name: cronos-data-volume
           persistentVolumeClaim:
             claimName: template-cronos-pos-node
 
