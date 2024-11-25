@@ -172,6 +172,27 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   6665D5883A7F029B37AE37D8ACDCC5B7BE6982018BB9280814A826CE2D494DDA
   ```
 
+
+### - Challenges During the Setup and Operation
+
+During the implementation phase, several significant technical hurdles were encountered:
+
+- Resource Availability Constraints
+
+  There's no light node type available, also the available QuickSync and PublicNode snapshots exceeded my personal hardware at homeand often got OOM on system with 32GB RAM.
+
+- Network/RPC Reliability
+
+  During the node setup with STATE-SYNC implementation I occasionally found that the default RPC endpoints got timeout issues ("context deadline exceeded"). I later added additional new public RPC as redudancy.
+
+- Peer Connection Stability
+
+  When operating in STATE-SYNC mode, the documentation recommends using persistent_peers rather than the regular peers configuration. However, the default three node peers provided in the documentation frequently disconnect unexpectedly, resulting in endless retry attempts since (probably) these peer slots are already at maximum capacity.
+  Additionally, peer discovery often required extended periods (over 30 minutes) and would occasionally stall when searching for peers with compatible snapshots. By incorporating additional public seed peers from validators, we were able to significantly reduce the initialization time required to obtain the correct snapshot.
+
+
+*Overall, setting up a blockchain system/node remains a challenging engineering task! :D*
+
 ----
 ## Q2: HTTP Server
 
@@ -185,7 +206,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 - How should we distribute these client certificates?
 
-  Client certificates need secure distribution via encrypted channels like:
+  Client certificates need a secure distribution via encrypted channels like:
   - Password-protected archives
-  - Secret management platforms/services
-  - Automated certificate lifecycle systems
+  - Secret management or zero trust platforms/services
+  - Automated certificate lifecycle systems (create, renew, revoke)
