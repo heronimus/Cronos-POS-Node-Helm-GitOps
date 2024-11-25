@@ -25,14 +25,14 @@ patches:
       kind: StatefulSet
       name: template-cronos-pos-node
     patch: |-
-      # env: MONIKER_ID
+      # Replace ENV: MONIKER_ID
       - op: replace
         path: /spec/template/spec/initContainers/0/env/0/value
         value: "example-cronos-pos-node-1"
-      # env: CUSTOM_HEIGHT
+      # Replace ENV: CUSTOM_HEIGHT
       - op: replace
         path: /spec/template/spec/containers/0/env/0/value
-        value: 20780001
+        value: 20780000
       - op: replace
         path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
         value: example-cronos-pos-node
