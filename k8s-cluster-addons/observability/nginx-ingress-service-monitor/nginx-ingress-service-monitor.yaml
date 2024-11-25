@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus-grafana-stack
+    name: nginx-ingress-microk8s
+  name: nginx-ingress-microk8s
+  namespace: ingress
+spec:
+  attachMetadata:
+    node: false
+  endpoints:
+    - port: health
+      path: /metrics
+      scheme: http
+  jobLabel: jobLabel
+  selector:
+    matchLabels:
+      name: nginx-ingress-microk8s
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    release: prometheus-grafana-stack
+    jobLabel: nginx-ingress-microk8s
+    name: nginx-ingress-microk8s
+  name: nginx-ingress-microk8s
+  namespace: ingress
+spec:
+  ports:
+    - name: health
+      port: 10254
+      protocol: TCP
+      targetPort: 10254
+  selector:
+    name: nginx-ingress-microk8s
