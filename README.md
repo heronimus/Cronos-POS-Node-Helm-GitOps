@@ -139,4 +139,19 @@ Advantages:
   ```
 
 ----
-Q2: HTTP Server
+## Q2: HTTP Server
+
+![grafana-log-proxy](_assets/grafana-log-proxy.png)
+
+### - Configuration/Deliverables
+
+- `/web-server-proxy`: contains Nginx proxy configuration and Docker setup files for Blockchain RPC (Tendermint & Cosmos)
+
+- `/web-server-proxy/access-log.log`: proxy access logs from benchmark testing, viewable at [https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1](https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1)
+
+- How should we distribute these client certificates?
+
+  Client certificates need secure distribution via encrypted channels like:
+  - Password-protected archives
+  - Secret management platforms/services
+  - Automated certificate lifecycle systems
