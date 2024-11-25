@@ -65,7 +65,7 @@ patches:
         path: /spec/rules/0/host
         value: grpc-example-cronos-pos-node-1.grpc-cronos.heronimus.id
       - op: replace
-        path: /spec/tls/0/hosts
+        path: /spec/tls/0/hosts/0
         value: grpc-example-cronos-pos-node-1.grpc-cronos.heronimus.id
       - op: replace
         path: /spec/rules/0/http/paths/0/backend/service/name
