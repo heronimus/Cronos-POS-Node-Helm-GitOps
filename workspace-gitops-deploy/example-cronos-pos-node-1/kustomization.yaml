@@ -32,7 +32,7 @@ patches:
       # Replace ENV: CUSTOM_HEIGHT
       - op: replace
         path: /spec/template/spec/containers/0/env/0/value
-        value: "20780000"
+        value: "20000999"
       - op: replace
         path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
         value: example-cronos-pos-node-1
