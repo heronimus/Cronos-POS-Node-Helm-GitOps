@@ -85,9 +85,12 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ![argocd-1](_assets/argocd-1.png)
 
+![argocd-2](_assets/argocd-2.png)
+
 - **ArgoCD Dashboard** (Guest Access): https://argocd.cronos.heronimus.id/applications?namespace=cronos-pos
 
-![argocd-2](_assets/argocd-2.png)
+
+![local-node](_assets/local-node.png)
 
 - **Cronos-POS** Synced-Node (Running on my local but proxied through my K8S cluster)
   - RPC: https://rpc-local-mac.cronos.heronimus.id/
