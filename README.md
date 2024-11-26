@@ -50,7 +50,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ### - Configuration/Deliverables
 
-- `/cronos-pos-container`
+- dir: `/cronos-pos-container`
 
   Contain the `Dockerfile` and scripts needed to launch Cronos-POS nodes in STATE-SYNC mode with configurable block heights (using CUSTOM_HEIGHT env var).
   There's two helper scripts:
@@ -58,16 +58,16 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   - `cronospos-enable-statesync.sh` --> enable various configuration to app.toml & config.toml, mainly to setup the STATE-SYNC configuration.
 
 
-- `/cronos-pos-k8s-template`:
+- dir: `/cronos-pos-k8s-template`:
 
   Stores Kubernetes deployment templates for Cronos-POS observer nodes, utilizing kustomize (https://kustomize.io/) for manifest management and patching.
 
 
-- `/k8s-cluster-addons`:
+- dir: `/k8s-cluster-addons`:
 
   Provides supplementary configurations and add-ons for the Kubernetes environment including monitoring, ArgoCD, and ingress setup.
 
-- `/workspace-gitops-deploy`:
+- dir: `/workspace-gitops-deploy`:
 
   Derves as the GitOps deployment workspace containing individual Cronos-POS node configurations, with `example-cronos-pos-node-1` provided as a reference implementation.
 
@@ -109,7 +109,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ---
 
-### - Questions
+### - Questions/Answer
 
 - What is the amount of balance address `cro1hsr2z6lr7k2szjktzjst46rr9cfavprqas20gc` has?
 
@@ -203,9 +203,9 @@ During the implementation phase, several significant technical hurdles were enco
 
 ### - Configuration/Deliverables
 
-- `/web-server-proxy`: contains Nginx proxy configuration and Docker setup files for Blockchain RPC (Tendermint & Cosmos)
+- dir: `/web-server-proxy`: contains Nginx proxy configuration and Docker setup files for Blockchain RPC (Tendermint & Cosmos)
 
-- `/web-server-proxy/access-log.log`: proxy access logs from benchmark testing, viewable at [https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1](https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1)
+- dir: `/web-server-proxy/access-log.log`: Access logs generated during benchmark testing can be found in this directory. The logs are also accessible through a Grafana dashboard at [https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1](https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1)
 
 - How should we distribute these client certificates?
 
