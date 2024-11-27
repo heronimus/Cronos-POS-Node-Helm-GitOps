@@ -2,6 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    release: prometheus-grafana-stack
+    jobLabel: local-mac-cronos-heronimus-id
+    app: local-mac-cronos-heronimus-id
   name: local-mac-cronos-heronimus-id
   namespace: cronos-pos
 spec:
@@ -21,6 +25,10 @@ spec:
     - name: grpc
       port: 9090
       targetPort: 9090
+      protocol: TCP
+    - name: metrics
+      port: 26660
+      targetPort: 26660
       protocol: TCP
 ---
 apiVersion: v1
@@ -43,6 +51,9 @@ subsets:
         protocol: TCP
       - name: grpc
         port: 9090
+        protocol: TCP
+      - name: metrics
+        port: 26660
         protocol: TCP
 
 ## Kind: Ingress Rule
