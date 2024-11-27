@@ -213,3 +213,17 @@ During the implementation phase, several significant technical hurdles were enco
   - Password-protected archives
   - Secret management or zero trust platforms/services
   - Automated certificate lifecycle systems (create, renew, revoke)
+
+---
+## Additional Info
+
+This section was added after the challenge submission on 25/11/2024.
+
+### Node Validator Monitoring Dashboard
+
+The Prometheus metrics are collected by enabling `prometheus = true` in the `config.toml` files. By default, the Prometheus endpoint runs on port `26660`.
+
+The public Grafana dashboard for Cronos-POS Node information is accessible at:
+https://grafana.cronos.heronimus.id/public-dashboards/8827f9ccc9fa4dada9718a3f2c18115a?orgId=1
+
+![grafana-node-metrics](_assets/grafana-node-metrics.png)

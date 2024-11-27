@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus-grafana-stack
+    name: local-mac-cronos-heronimus-id
+  name: local-mac-cronos-heronimus-id
+  namespace: cronos-pos
+spec:
+  attachMetadata:
+    node: false
+  endpoints:
+    - port: metrics
+      path: /metrics
+      scheme: http
+  jobLabel: jobLabel
+  selector:
+    matchLabels:
+      app: local-mac-cronos-heronimus-id
