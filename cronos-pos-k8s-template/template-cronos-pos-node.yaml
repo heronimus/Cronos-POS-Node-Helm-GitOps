@@ -156,8 +156,9 @@ metadata:
   labels:
     app: template-cronos-pos-node-grpc
     crypto-pos.org/service: cronos-pos-node
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   tls:
     - secretName: wildcard-grpc-cronos-heronimus-id

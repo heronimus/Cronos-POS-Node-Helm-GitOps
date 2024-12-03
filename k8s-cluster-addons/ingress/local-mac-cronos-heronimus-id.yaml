@@ -98,6 +98,7 @@ metadata:
   labels:
     app: local-mac-cronos-pos-node-grpc
     crypto-pos.org/service: cronos-pos-node
+  annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
 spec:
@@ -114,6 +115,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: local-mac-cronos-pos-node
+                name: local-mac-cronos-heronimus-id
                 port:
                   number: 9090
