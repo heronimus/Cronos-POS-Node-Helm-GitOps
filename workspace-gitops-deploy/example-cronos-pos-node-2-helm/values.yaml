@@ -1,0 +1,63 @@
+# Default values for cronos-pos-node
+nameOverride: ""
+fullnameOverride: ""
+cronosPosSpec:
+  monikerId: "default-123"
+  stateSync:
+    customHeight: "20780002"
+
+replicaCount: 1
+image:
+  repository: heronimus/cronospos-chain-main
+  tag: "4.2.9"
+  pullPolicy: IfNotPresent
+
+resources:
+  chainMainInit:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  chainMain:
+    limits:
+      cpu: 1000m
+      memory: 1500Mi
+    requests:
+      cpu: 500m
+      memory: 1000Mi
+
+persistence:
+  storageClass: "hostvolume-local"
+  size: 5Gi
+  accessMode: ReadWriteOnce
+
+service:
+  type: ClusterIP
+  ports:
+    tendermintP2P: 26656
+    tendermintRPC: 26657
+    rest: 1317
+    grpc: 9090
+    metrics: 26660
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    rpc:
+      host: rpc-template-cronos-pos-node.cronos.heronimus.id
+      path: /
+      pathType: Prefix
+    rest:
+      host: rest-template-cronos-pos-node.cronos.heronimus.id
+      path: /
+      pathType: Prefix
+
+  grpc:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    host: grpc-template-cronos-pos-node.grpc-cronos.heronimus.id
+    tls:
+      secretName: wildcard-grpc-cronos-heronimus-id

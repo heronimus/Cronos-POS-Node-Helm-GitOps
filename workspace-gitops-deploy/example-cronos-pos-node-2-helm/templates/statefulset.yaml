@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "cronos-pos-node.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "cronos-pos-node.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "cronos-pos-node.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "cronos-pos-node.labels" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: chain-main-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - "./cronospos-init-mainnet.sh"
+            - "--moniker-id=${MONIKER_ID}"
+          env:
+            - name: MONIKER_ID
+              value: {{ .Values.cronosPosSpec.monikerId | quote }}
+          resources:
+            {{- toYaml .Values.resources.chainMainInit | nindent 12 }}
+          volumeMounts:
+            - mountPath: /chain-main/.chain-maind/
+              name: cronos-data-volume
+      containers:
+        - name: chain-main-statesync-enabled
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - bash
+            - -c
+            - "./cronospos-enable-statesync.sh --custom-height=${CUSTOM_HEIGHT} && chain-maind start"
+          resources:
+            {{- toYaml .Values.resources.chainMain | nindent 12 }}
+          env:
+            - name: CUSTOM_HEIGHT
+              value: {{ .Values.cronosPosSpec.stateSync.customHeight | quote }}
+          ports:
+            {{- range $key, $value := .Values.service.ports }}
+            - name: {{ $key | lower }}
+              containerPort: {{ $value }}
+              protocol: TCP
+            {{- end }}
+          volumeMounts:
+            - mountPath: /chain-main/.chain-maind/
+              name: cronos-data-volume
+      volumes:
+        - name: cronos-data-volume
+          persistentVolumeClaim:
+            claimName: {{ include "cronos-pos-node.fullname" . }}

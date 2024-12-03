@@ -1,0 +1,6 @@
+apiVersion: v2
+name: examole-cronos-pos-node-2
+description: A Helm chart for Cronos POS Node
+type: application
+version: 0.1.0
+appVersion: "4.2.9"
