@@ -227,3 +227,8 @@ The public Grafana dashboard for Cronos-POS Node information is accessible at:
 https://grafana.cronos.heronimus.id/public-dashboards/8827f9ccc9fa4dada9718a3f2c18115a?orgId=1
 
 ![grafana-node-metrics](_assets/grafana-node-metrics.png)
+
+
+### Helm Chart Template
+
+- `cronos-pos-k8s-template/helm-chart`
