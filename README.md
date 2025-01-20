@@ -44,9 +44,6 @@
 
 - **ArgoCD Dashboard** (Guest Access): https://argocd.cronos.heronimus.id/applications?namespace=cronos-pos
 
-
-![local-node](_assets/local-node.png)
-
 - **Cronos-POS** Synced-Node (Running on my local but proxied through my K8S cluster)
   - RPC: https://rpc-local-mac.cronos.heronimus.id/
   - Rest API: https://rest-local-mac.cronos.heronimus.id/
