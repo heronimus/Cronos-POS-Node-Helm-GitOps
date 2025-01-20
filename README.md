@@ -1,54 +1,6 @@
-# crypto-com-devops-challenge
+# Cronos-POS Helm + GitOps Deployment
 
-By: Heronimus Adie (adie@heronimus.id)
-
-## Q1: Blockchain Installation Setup
-
-### - Key Assumptions
-
-The observer node implementation in my case will us a STATE-SYNC node configuration rather than a full validator node for the following reasons:
-- Running a complete Full-Node requires significant computational resources
-- STATE-SYNC provides near-the-head pruned data, which is sufficient for most API query needs
-
----
-
-### - Tech-Stack Design Selection
-
-![architecture](_assets/architecture-design.png)
-
-The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubernetes:
-
-- Users commit deployment changes to the Git repository
-- Changes are organized in workspace deployments (e.g., cronos-pos-deploy-1, cronos-pos-deploy-2) in git repository
-- ArgoCD automatically synchronizes these changes to the Kubernetes cluster
-
-
-#### Kubernetes as Container Orchestrator
-- Advantages:
-  - Battle-tested platform with proven reliability in production
-  - Support scalability for growing workloads
-  - Cloud-agnostic architecture enabling multi-cloud and bare-metal deployments
-
-
-#### GitOps Workflow with ArgoCD
-- Advantages:
-  - Declarative configuration management ensuring infrastructure as code
-  - Automated synchronization between Git repository and cluster state
-  - Clear audit trail and version control for all deployments
-  - Simplified rollback capabilities through Git history
-  - Enhanced collaboration through pull request workflows
-
-
-#### Implementation Challenges
-- Requires strong/comprehensive engineering expertise in Kubernetes architecture
-- Initial setup complexity for proper proper maintainability and observability
-
-
-
----
-
-
-### - Configuration/Deliverables
+### - Configuration
 
 - dir: `/cronos-pos-container`
 
@@ -80,8 +32,7 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 ---
 
 
-### - Testing and HandsOn
-
+### - Tests Run
 
 ![argocd-1](_assets/argocd-1.png)
 
@@ -109,9 +60,9 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
 
 ---
 
-### - Questions/Answer
+### - Operational FAQ
 
-- What is the amount of balance address `cro1hsr2z6lr7k2szjktzjst46rr9cfavprqas20gc` has?
+- Query Balance of wallet address
 
   Get Balance query can be done using a query to the Cosmos Bank Module using multiple endpoint available.
 
@@ -161,9 +112,9 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   }
   ```
 
-- What is the block hash for `13947398` information?
+- Block Information Query
 
-  Because I run the observer node using state-sync at higher trusted height so I can't query earlier block. I'll use the public RPC endpoint instead to get block hash for block `13947398`.
+  Get block hash for block `13947398`.
 
   Query
   ```
@@ -174,56 +125,3 @@ The implementation follows a GitOps workflow pattern utilizing ArgoCD and Kubern
   ```
   6665D5883A7F029B37AE37D8ACDCC5B7BE6982018BB9280814A826CE2D494DDA
   ```
-
-
-### - Challenges During the Setup and Operation
-
-During the implementation phase, several significant technical hurdles were encountered:
-
-- Resource Availability Constraints
-
-  There's no light node type available, also the available QuickSync and PublicNode snapshots exceeded my personal hardware at homeand often got OOM on system with 32GB RAM.
-
-- Network/RPC Reliability
-
-  During the node setup with STATE-SYNC implementation I occasionally found that the default RPC endpoints got timeout issues ("context deadline exceeded"). I later added additional new public RPC as redudancy.
-
-- Peer Connection Stability
-
-  When operating in STATE-SYNC mode, the documentation recommends using persistent_peers rather than the regular peers configuration. However, the default three node peers provided in the documentation frequently disconnect unexpectedly, resulting in endless retry attempts since (probably) these peer slots are already at maximum capacity.
-  Additionally, peer discovery often required extended periods (over 30 minutes) and would occasionally stall when searching for peers with compatible snapshots. By incorporating additional public seed peers from validators, we were able to significantly reduce the initialization time required to obtain the correct snapshot.
-
-
-*Overall, setting up a blockchain system/node remains a challenging engineering task! :D*
-
-----
-## Q2: HTTP Server
-
-![grafana-log-proxy](_assets/grafana-log-proxy.png)
-
-### - Configuration/Deliverables
-
-- dir: `/web-server-proxy`: contains Nginx proxy configuration and Docker setup files for Blockchain RPC (Tendermint & Cosmos)
-
-- dir: `/web-server-proxy/access-log.log`: Access logs generated during benchmark testing can be found in this directory. The logs are also accessible through a Grafana dashboard at [https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1](https://grafana.cronos.heronimus.id/public-dashboards/e41fde8e52a34c0c96c6f139d1aa5323?orgId=1)
-
-- How should we distribute these client certificates?
-
-  Client certificates need a secure distribution via encrypted channels like:
-  - Password-protected archives
-  - Secret management or zero trust platforms/services
-  - Automated certificate lifecycle systems (create, renew, revoke)
-
----
-## Additional Info
-
-This section was added after the challenge submission on 25/11/2024.
-
-### Node Validator Monitoring Dashboard
-
-The Prometheus metrics are collected by enabling `prometheus = true` in the `config.toml` files. By default, the Prometheus endpoint runs on port `26660`.
-
-The public Grafana dashboard for Cronos-POS Node information is accessible at:
-https://grafana.cronos.heronimus.id/public-dashboards/8827f9ccc9fa4dada9718a3f2c18115a?orgId=1
-
-![grafana-node-metrics](_assets/grafana-node-metrics.png)
