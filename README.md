@@ -30,7 +30,11 @@
 
 
 ---
+### - Tech-Stack in Use
 
+![architecture](_assets/architecture-design.png)
+
+---
 
 ### - Tests Run
 
